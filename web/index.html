@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Togather — Node Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <div>
+      <h1>Node Dashboard</h1>
+      <p class="node-line"><span id="node-name">…</span></p>
+    </div>
+    <div class="masthead-meta">
+      <span class="pill" id="admin-pill" hidden></span>
+      <button type="button" class="btn" id="refresh">Refresh</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Coverage & gaps: public data, no credentials required. -->
+  <section class="panel" id="panel-coverage">
+    <div class="panel-head">
+      <h2>Coverage &amp; gaps</h2>
+      <div class="panel-controls">
+        <label for="horizon" class="sr-only">Horizon</label>
+        <select id="horizon">
+          <option value="14">Next 14 days</option>
+          <option value="30" selected>Next 30 days</option>
+          <option value="60">Next 60 days</option>
+          <option value="90">Next 90 days</option>
+        </select>
+      </div>
+    </div>
+    <div class="panel-body" id="coverage-body">
+      <p class="loading">Loading…</p>
+    </div>
+  </section>
+
+  <!-- Source health: requires admin credentials. -->
+  <section class="panel" id="panel-sources">
+    <div class="panel-head"><h2>Source health</h2></div>
+    <div class="panel-body" id="sources-body">
+      <p class="loading">Loading…</p>
+    </div>
+  </section>
+
+  <div class="panel-row">
+    <!-- Provenance: blocked upstream, see server#22. -->
+    <section class="panel" id="panel-provenance">
+      <div class="panel-head"><h2>Provenance mix</h2></div>
+      <div class="panel-body" id="provenance-body">
+        <p class="loading">Loading…</p>
+      </div>
+    </section>
+
+    <!-- API usage: requires admin credentials. -->
+    <section class="panel" id="panel-usage">
+      <div class="panel-head"><h2>API usage</h2></div>
+      <div class="panel-body" id="usage-body">
+        <p class="loading">Loading…</p>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="muted">
+      Read-only. Admin data is proxied server-side — no credential reaches this page.
+      See <code>docs/rfc-001-auth-posture.md</code>.
+    </p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

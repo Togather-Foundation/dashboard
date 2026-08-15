@@ -2,7 +2,7 @@
 
 Operational reporting for a [Togather](https://togather.foundation) SEL node — data provenance, coverage, source health, and API usage.
 
-**Status: design stage. No implementation yet.**
+**Status: MVP. Coverage panel is live against real data; three panels are stubs pending credentials or upstream fixes.**
 
 ## What this is for
 
@@ -13,7 +13,46 @@ Two audiences, in priority order:
 
 API usage and product analytics come later, once there is more to measure.
 
-## Before writing code
+## Running it
+
+```sh
+cp .env.example .env     # optional: admin credentials
+make run                 # → http://127.0.0.1:8080
+```
+
+Without credentials it runs in public-only mode: the coverage panel works fully,
+and the admin panels report why they are unavailable rather than failing.
+
+`make check` runs fmt, vet and tests.
+
+## Architecture
+
+```
+cmd/bff/          Go service. Holds the admin JWT; serves web/ and /api/*.
+internal/sel/     Typed client for the node's HTTP API, split public/admin.
+internal/coverage/ Aggregation over public event data.
+web/              Static frontend. No build step, no dependencies.
+```
+
+The BFF exposes a fixed, enumerated set of read-only endpoints. There is no
+general-purpose passthrough — adding one is an explicit edit, so the privileged
+surface stays auditable. It refuses to bind to anything but loopback, because
+this MVP has no browser-facing authentication yet.
+
+## Panel status
+
+| Panel | State | Blocker |
+|---|---|---|
+| Coverage & gaps | **Live** — real data, no credentials needed | — |
+| Source health | Stub — client written, untested | Needs admin credentials |
+| API usage | Stub — client written, untested | Needs admin credentials |
+| Provenance mix | Stub — reports the blockage | [server#22](https://github.com/Togather-Foundation/server/issues/22) |
+
+The admin clients in `internal/sel` were written from the OpenAPI schema and are
+marked `UNVERIFIED` — no credentials were available when they were authored, so
+their response shapes have not been confirmed against a live node.
+
+## Before extending it
 
 Read [`docs/rfc-001-auth-posture.md`](docs/rfc-001-auth-posture.md). Nearly all of this app's data sits behind `/admin/*`, which means — unlike [`web-viewer`](https://github.com/Togather-Foundation/web-viewer) — it cannot be a static site without a security tradeoff. That decision determines the deployment topology, so it should be settled before the first commit of application code.
 
