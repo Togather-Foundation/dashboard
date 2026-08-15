@@ -6,12 +6,22 @@ Operational reporting for a [Togather](https://togather.foundation) SEL node —
 
 ## What this is for
 
-Two audiences, in priority order:
+See [`docs/rfc-002-teloi.md`](docs/rfc-002-teloi.md) for the full argument. In short, the
+dashboard exists to settle five questions, not to display data:
 
-1. **Operational** — is ingestion healthy? Which sources have gone quiet, which venues have no upcoming events, where is coverage thinning out? The useful signal here is *absence*, not totals. Totals only ever go up; gaps tell you what to do on Monday.
-2. **Provenance** — where did this data come from, under what license, with what confidence, and how fresh is it? This is the claim the SEL makes about itself, and it should be inspectable.
+| | End | Decision it enables | State |
+|---|---|---|---|
+| T1 | Notice ingestion has broken before a consumer does | Intervene in a scraper today? | Blocked on credentials |
+| T2 | Decide the library is fit to publish or federate | Can we stand behind this data? | Partly answerable |
+| T3 | Direct scarce contributor effort at the biggest gap | What should a volunteer do this week? | **Live** |
+| T4 | Show the commons is working | Funding, partnerships | Deferred — but needs history *now* |
+| T5 | Understand who consumes the data | What to build next | Deferred |
 
-API usage and product analytics come later, once there is more to measure.
+The test applied to every panel: **who does what differently because of it?** A panel no one
+acts on is a screensaver, however accurate.
+
+What the server must provide for each is tracked in
+[`docs/server-dependencies.md`](docs/server-dependencies.md).
 
 ## Running it
 
