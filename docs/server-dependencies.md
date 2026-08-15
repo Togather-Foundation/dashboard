@@ -6,7 +6,7 @@ What the dashboard needs from `Togather-Foundation/server`, why, and where it is
 
 The purpose of this register is to make the requirements conversation tractable: each row states the end it serves ([RFC 002](rfc-002-teloi.md)), so a discussion about priority is a discussion about which end matters, not about which feature someone fancies. Rows without a telos should not be built.
 
-Last verified against `staging.toronto.togather.foundation` on 2026-08-15.
+Last verified against `staging.toronto.togather.foundation` on 2026-08-15. Consolidated for discussion in [server#26](https://github.com/Togather-Foundation/server/issues/26).
 
 ## Blocking
 
@@ -25,8 +25,8 @@ Things that materially improve an end without blocking it.
 | # | Need | Serves | Tracked | Notes |
 |---|---|---|---|---|
 | S1 | **Aggregate counts on public collections** | T3, T4 | [#24](https://github.com/Togather-Foundation/server/issues/24) | The coverage panel paginates up to 12 × 200 records per load to compute figures the server could return directly. Works at current volume; will not scale, and the `truncated` flag already exists to admit when it gives up. |
-| S2 | **Place data quality: names and geo** | T3 | [#23](https://github.com/Togather-Foundation/server/issues/23) | 103 of 186 active venues have no `geo`, so geographic gap analysis — the most actionable form of T3 — is impossible. The name-concatenation defect additionally splits one venue across two keys unless normalised client-side, which `internal/coverage` currently does. |
-| S3 | **HTML entities stored in place names** | T3 | *unfiled — see below* | 41 events carry venue names with escapes intact (`Annabel&#39;s`). Every API consumer inherits this. Same class as S2 and probably the same batch. |
+| S2 | **Place data quality: names and geo** | T3 | [#23](https://github.com/Togather-Foundation/server/issues/23) | **779 of 1,200 places (64%) have no `geo`**, so geographic gap analysis — the most actionable form of T3 — is impossible. (103 of 186 when restricted to venues with events in a 30-day window; the collection-wide figure is the one that matters.) 77 records also carry the name-concatenation defect, which splits one venue across two keys unless normalised client-side, as `internal/coverage` currently does. |
+| S3 | **HTML entities stored in place names** | T3 | [#23](https://github.com/Togather-Foundation/server/issues/23) | **76 place records** carry names with escapes intact (`&#8211;`, `&#8217;`, `&amp;`), surfacing in 41 events over a 30-day window. Every API consumer inherits this. Same class as S2. |
 | S4 | **Run history per source** | T1 | *exists: `/admin/scraper/sources/{name}/runs`* | Needed for T1's baseline comparison. Unverified pending B1. |
 
 ## Watching
